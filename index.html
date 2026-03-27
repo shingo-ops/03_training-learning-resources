@@ -210,14 +210,12 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
   max-width: 800px;
   height: auto;
   min-height: 80px;
-  background: rgba(6, 13, 26, 0.96);
-  border: 1px solid rgba(240,237,232,0.07);
-  border-radius: 12px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 20px 40px;
   z-index: 95;
-  backdrop-filter: blur(8px);
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
@@ -225,11 +223,14 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
   opacity: 1;
 }
 #tw-text {
-  font-size: 16px; line-height: 1.65;
-  color: rgba(240,237,232,0.88);
+  font-size: 18px;
+  line-height: 1.8;
+  color: #f0ede8;
   width: 100%;
-  font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",sans-serif;
-  letter-spacing: 0.02em;
+  font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Mincho E", "MS PMincho", "MS Mincho", serif;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
 }
 #tw-cursor {
   display: inline-block;
@@ -261,6 +262,7 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
   .title h1 { font-size: 24px; }
   #nav { bottom: 90px; right: 14px; }
   #tw-bar { padding: 16px 20px; width: 95%; bottom: 15vh; }
+  #tw-text { font-size: 16px; line-height: 1.75; }
 }
 </style>
 </head>
