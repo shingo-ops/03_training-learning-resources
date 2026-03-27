@@ -807,12 +807,11 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
   }
 
   document.getElementById('viewport').addEventListener('click', function(e) {
-    if (e.target.closest('#nav') || e.target.closest('#dots') || e.target.closest('#tw-bar')) return;
+    if (e.target.closest('#tw-bar')) return;
     handleAdvance();
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); handleAdvance(); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); onUserAction(); twReset(); audioStop(); gotoSlide(cur - 1); }
   });
   var tx0 = 0;
   document.addEventListener('touchstart', function(e) { tx0 = e.touches[0].clientX; }, { passive: true });
