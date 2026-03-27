@@ -202,14 +202,27 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
 
 /* ─── TYPEWRITER BAR ─── */
 #tw-bar {
-  position: fixed; bottom: 3px; left: 0; right: 0;
-  height: 80px;
+  position: fixed;
+  bottom: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  min-height: 80px;
   background: rgba(6, 13, 26, 0.96);
-  border-top: 1px solid rgba(240,237,232,0.07);
-  display: flex; align-items: center;
-  padding: 0 40px;
+  border: 1px solid rgba(240,237,232,0.07);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
   z-index: 95;
   backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+#tw-bar.show {
+  opacity: 1;
 }
 #tw-text {
   font-size: 16px; line-height: 1.65;
@@ -247,7 +260,7 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
   .sh { padding: 10px 14px; }
   .title h1 { font-size: 24px; }
   #nav { bottom: 90px; right: 14px; }
-  #tw-bar { padding: 0 16px; gap: 10px; }
+  #tw-bar { padding: 16px 20px; width: 95%; bottom: 15vh; }
 }
 </style>
 </head>
@@ -691,6 +704,8 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
 
   function twReset() {
     clearAutoSubtitle();
+    var twBar = document.getElementById('tw-bar');
+    if (twBar) twBar.classList.remove('show');
     if (twContent) twContent.textContent = '';
     twDone = false; twAllDone = false; manualLine = -1;
     twLines = [];
@@ -746,22 +761,22 @@ svg text { font-family: "Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",san
     if (svg) svg.style.opacity = '0';
   }
 
-  // 1行をタイプライター表示
+  // 1行をフェードイン表示
   function typewriterLine(line, lineIdx) {
-    if (twContent) twContent.textContent = '';
-    var char = 0;
-    var SPEED = 40;
-    function tick() {
-      if (char < line.length) {
-        if (twContent) twContent.textContent = line.slice(0, ++char);
-        var t = setTimeout(tick, SPEED);
-        twTimers.push(t);
-      } else {
-        twDone = true;
-        twAllDone = lineIdx >= twLines.length - 1;
-      }
-    }
-    tick();
+    var twBar = document.getElementById('tw-bar');
+
+    // フェードアウト
+    if (twBar) twBar.classList.remove('show');
+
+    // 少し待ってから新しいテキストを設定してフェードイン
+    var fadeOutTimer = setTimeout(function() {
+      if (twContent) twContent.textContent = line;
+      if (twBar) twBar.classList.add('show');
+      twDone = true;
+      twAllDone = lineIdx >= twLines.length - 1;
+    }, 300); // フェードアウト時間に合わせる
+
+    twTimers.push(fadeOutTimer);
   }
 
   // ── スライド制御 ─────────────────────────────────────────
