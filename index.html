@@ -170,35 +170,6 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
 }
 #prog-bar { height: 100%; background: var(--coral); transition: width 0.42s ease; }
 
-/* ─── DOTS ─── */
-#dots {
-  position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 6px; z-index: 100;
-}
-.dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-.dot.on { background: var(--coral); transform: scale(1.4); }
-
-/* ─── NAV BUTTONS ─── */
-#nav {
-  position: fixed; bottom: 86px; right: 20px;
-  display: flex; gap: 8px; z-index: 100;
-}
-.nb {
-  width: 40px; height: 40px; border-radius: 50%;
-  border: 1px solid var(--border);
-  background: rgba(10,20,40,0.85);
-  color: var(--text); font-size: 16px;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background 0.15s; backdrop-filter: blur(6px);
-}
-.nb:hover { background: rgba(232,93,48,0.3); border-color: var(--coral); }
-.nb:active { transform: scale(0.9); }
-.nb:disabled { opacity: 0.2; cursor: default; }
-.nb.muted { opacity: 0.35; }
 
 /* ─── TYPEWRITER BAR ─── */
 #tw-bar {
@@ -260,7 +231,6 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
   .row { flex-direction: column; }
   .sh { padding: 10px 14px; }
   .title h1 { font-size: 24px; font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Mincho E", "MS PMincho", "MS Mincho", serif; }
-  #nav { bottom: 90px; right: 14px; }
   #tw-bar { padding: 16px 20px; width: 95%; bottom: 15vh; }
   #tw-text { font-size: 16px; line-height: 1.75; }
 }
@@ -555,12 +525,6 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
 </div><!-- /viewport -->
 
 <div id="prog"><div id="prog-bar"></div></div>
-<div id="dots"></div>
-<div id="nav">
-  <button class="nb" id="btn-prev" disabled>&#8592;</button>
-  <button class="nb" id="btn-voice" title="音声オン/オフ">&#128264;</button>
-  <button class="nb" id="btn-next">&#8594;</button>
-</div>
 <div id="tw-bar">
   <span id="tw-text"><span id="tw-content"></span><span id="tw-cursor">▌</span></span>
 </div>
@@ -785,25 +749,11 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
   var slides = document.querySelectorAll('.slide');
   var N = slides.length, cur = 0, busy = false;
   var progBar = document.getElementById('prog-bar');
-  var btnPrev = document.getElementById('btn-prev');
-  var btnNext = document.getElementById('btn-next');
-  var dotsEl  = document.getElementById('dots');
 
-  for (var i = 0; i < N; i++) {
-    (function(idx) {
-      var d = document.createElement('div');
-      d.className = 'dot' + (idx === 0 ? ' on' : '');
-      d.addEventListener('click', function() { onUserAction(); twReset(); audioStop(); gotoSlide(idx); });
-      dotsEl.appendChild(d);
-    })(i);
-  }
   slides[0].classList.add('active');
 
   function updateUI() {
     progBar.style.width = (N <= 1 ? 100 : (cur / (N - 1)) * 100) + '%';
-    btnPrev.disabled = cur === 0;
-    btnNext.disabled = cur === N - 1;
-    dotsEl.querySelectorAll('.dot').forEach(function(d, i) { d.classList.toggle('on', i === cur); });
   }
 
   function gotoSlide(idx) {
@@ -823,8 +773,6 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
     }, 300);
   }
 
-  btnNext.addEventListener('click', function(e) { e.stopPropagation(); onUserAction(); twReset(); audioStop(); gotoSlide(cur + 1); });
-  btnPrev.addEventListener('click', function(e) { e.stopPropagation(); onUserAction(); twReset(); audioStop(); gotoSlide(cur - 1); });
 
   // ── 初回タップ ────────────────────────────────────────────
   function unlockCtx() {
