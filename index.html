@@ -764,12 +764,13 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
     twReset(); // 字幕をリセット
     pendingPlay = -1;
     resetSlide01(); // スライド移動時にSlide01演出をリセット
-    playSlide(idx);
     slides[cur].classList.remove('active');
     setTimeout(function() {
       slides[idx].classList.add('active');
       cur = idx; updateUI();
       setTimeout(function() { busy = false; }, 600);
+      // スライド表示後1.5秒後に音声・字幕を開始
+      setTimeout(function() { playSlide(idx); }, 1500);
     }, 300);
   }
 
