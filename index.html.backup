@@ -226,8 +226,38 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
 .hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
 .hint span { color: var(--coral); }
 
+
+/* Card styles for slide 01 */
+.card-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  max-height: 48vh;
+}
+.card-img {
+  width: 100%;
+  display: block;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+.card-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% + 40px);
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeInSvg 0.8s ease 1.5s forwards;
+}
+@keyframes fadeInSvg {
+  to { opacity: 1; }
+}
+
 @media (max-width: 600px) {
   .sb { padding: 14px 14px 160px; gap: 10px; }
+  .card-wrap { max-height: 12vh !important; max-width: 200px !important; }
+  .card-svg { display: none; }
   .row { flex-direction: column; }
   .sh { padding: 10px 14px; }
   .title h1 { font-size: 24px; font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Mincho E", "MS PMincho", "MS Mincho", serif; }
@@ -263,7 +293,7 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
 </div>
 
 <!-- ═══════════════════════════════════════ SLIDE 1: マークとは -->
-<div class="slide" id="slide-01" data-sub="カードの左下に印刷されているアルファベット1文字のマーク、これがレギュレーションマークです。|発売時期に応じてアルファベットが割り当てられており、同じ時期のカードは同じマークが印刷されています。|全てのカードにナンバーが印刷されており、レギュレーションで発売時期が分かります。" data-mp3-url="https://drive.google.com/uc?export=download&id=1Qsctx1WlOdprOmGgn6TwXyYs5gVWtcTt">
+<div class="slide" id="slide-01" data-sub="カードの左下に印刷されているアルファベット1文字のマーク、これがレギュレーションマークです。|発売時期に応じてアルファベットが割り当てられており、同じ時期のカードは同じマークが印刷されています。|全てのカードにナンバーが印刷されており、レギュレーションで発売時期が分かります。" data-mp3="slide01_audio.mp3">
   <div class="sh"><span class="sn">01 / 12</span><span class="st"><strong>レギュレーションマークとは何か</strong></span></div>
   <div class="sb" style="justify-content:flex-start;align-items:center;padding:80px 16px 12px;">
 
@@ -274,14 +304,14 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
            alt="リザードンV カード">
 
       <!-- SVG オーバーレイ: viewBox で正確な座標指定 -->
-      <svg id="reg-mark-svg" style="position:absolute;top:0;left:0;width:100%;height:calc(100% + 40px);pointer-events:none;z-index:10;opacity:0;" viewBox="0 0 644 960">
+      <svg id="reg-mark-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;opacity:0;" viewBox="0 0 644 960">
         <style>
           @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
           .blink { animation: blink 1.6s infinite; }
         </style>
 
         <!-- 赤枠 -->
-        <rect class="blink" x="76" y="837" width="32" height="34" rx="4"
+        <rect class="blink" x="76" y="838" width="32" height="34" rx="4"
               fill="rgba(255,0,0,0.15)" stroke="#ff0000" stroke-width="7"/>
 
         <!-- 矢印頭：枠線下端向き -->
@@ -751,7 +781,6 @@ svg text { font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "HG Min
   // ── スライド制御 ─────────────────────────────────────────
   var slides = document.querySelectorAll('.slide');
   var N = slides.length, cur = 0, busy = false;
-  }
   slides[0].classList.add('active');
 
   function updateUI() {
